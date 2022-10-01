@@ -8,7 +8,7 @@ require_once 'Classes/BookProduct.php';
 require_once 'Classes/FurnitureProduct.php';
 
 $json_string = file_get_contents('php://input');
-$Reqdata = json_decode($json_string,true);
+$Reqdata = json_decode($json_string, true);
 
 
 // 1. Fetch Request Data
