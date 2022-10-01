@@ -57,6 +57,14 @@ class Product
                 'message' => 'SKU is Required!',
             ];
         }
+        
+        $result = $this->db->checkExisitance("products", "sku", $data['sku']);
+        if (count($result) > 0) {
+            return [
+                'success' => false,
+                'message' => 'This Sku exist in our database before',
+            ];
+        }
 
         if (empty($data['name'])) {
             return [

@@ -23,6 +23,20 @@ class DB
         }
     }
 
+    public function checkExisitance($table, $col, $col_value)
+    {
+        $sql = "SELECT * FROM $table WHERE $col = \"$col_value\" ";
+        try {
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            // set the resulting array to associative
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
     public function insert($table, $data)
     {
         $columns = implode(',', array_keys($data));
@@ -74,3 +88,5 @@ class DB
 
 
 $db = new DB();
+
+
