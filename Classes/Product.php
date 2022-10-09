@@ -19,6 +19,11 @@ class Product
         $this->db = new DB;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function setSKU($sku)
     {
         $this->sku = $sku;
@@ -39,6 +44,11 @@ class Product
         return $this->sku;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getName()
     {
         return $this->name;
@@ -57,7 +67,7 @@ class Product
                 'message' => 'SKU is Required!',
             ];
         }
-        
+
         $result = $this->db->checkExisitance("products", "sku", $data['sku']);
         if (count($result) > 0) {
             return [
@@ -86,11 +96,35 @@ class Product
                 'message' => 'Type is Required!',
             ];
         }
+
+        return [
+            'success' => true,
+            'message' => 'Type is Required!',
+        ];
     }
 
     public function getAll()
     {
-        return $this->db->select('products');
+        $result = $this->db->select('products');
+
+        if (count($result) > 0) {
+            $products = [];
+            $product_classes = [
+                'dvd' => 'DVDProduct',
+                'book' => 'BookProduct',
+                'furniture' => 'FurnitureProduct',
+            ];
+            foreach ($result as $_product) {
+                $product = new $product_classes[$_product->type];
+
+                $product->construct($_product);
+
+                $products[] = $product->toArray();
+            }
+            return $products;
+        }
+
+        return [];
     }
 
     public function delete($ids)

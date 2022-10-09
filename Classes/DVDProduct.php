@@ -20,10 +20,31 @@ class DVDProduct extends Product
 
     public function construct($data)
     {
-        $this->setSKU($data['sku']);
-        $this->setName($data['name']);
-        $this->setPrice($data['price']);
-        $this->setSize($data['dvd_size_mb']);
+        if (isset($data->id)) {
+            $this->setId($data->id);
+        }
+
+        $this->setSKU($data->sku);
+        $this->setName($data->name);
+        $this->setPrice($data->price);
+        $this->setSize($data->dvd_size_mb);
+    }
+
+    public function toArray()
+    {
+        $data = [
+            'type' => $this->type,
+            'sku' => $this->getSKU(),
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'dvd_size_mb' => $this->getSize(),
+        ];
+
+        if (!empty($id = $this->getId())) {
+            $data['id'] = $id;
+        }
+
+        return $data;
     }
 
     public function validate($data)
@@ -48,12 +69,6 @@ class DVDProduct extends Product
 
     public function save()
     {
-        $this->db->insert('products', [
-            'sku' => $this->sku,
-            'name' => $this->name,
-            'price' => $this->price,
-            'type' => $this->type,
-            'dvd_size_mb' => $this->size_mb,
-        ]);
+        $this->db->insert('products', $this->toArray());
     }
 }

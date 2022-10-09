@@ -30,7 +30,7 @@ class DB
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
             // set the resulting array to associative
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
             die("Error: " . $e->getMessage());
@@ -61,7 +61,7 @@ class DB
             $stmt->execute();
 
             // set the resulting array to associative
-            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $stmt->setFetchMode(PDO::FETCH_OBJ);
 
             return $stmt->fetchAll();
         } catch (PDOException $e) {
@@ -88,5 +88,3 @@ class DB
 
 
 $db = new DB();
-
-
