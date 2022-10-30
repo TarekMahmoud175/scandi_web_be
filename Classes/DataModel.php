@@ -126,29 +126,32 @@ abstract class DataModel
         return $ret;
     }
 
-    public function sql($sql, array $params = null)
+    public function sql($sql, array $params = null, $results = false)
     {
         $sql = str_replace([':table', ':pk'], [$this->getTableName(), $this->getTablePk()], $sql);
-
         $stmt = $this->conn->prepare($sql);
+
         if (!$stmt || !$stmt->execute($params)) {
             throw new Exception(sprintf('Unable to execute SQL statement. %s', $this->conn->errorCode()));
         }
 
-        $ret = [];
+        if ($results) {
+            $ret = [];
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $ret[] = $row;
-        }
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $ret[] = $row;
+            }
 
-        $stmt->closeCursor();
+            $stmt->closeCursor();
 
-        return $ret;
+            return $ret;
+        } else
+            return true;
     }
 
     public function all()
     {
-        return $this->sql("SELECT * FROM :table");
+        return $this->sql("SELECT * FROM :table", null, true);
     }
 
     public function retrieveByField($field, $value, $limit = 1, $skip = 0)
