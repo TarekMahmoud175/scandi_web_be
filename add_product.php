@@ -3,13 +3,11 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 
-require_once 'Classes/DVDProduct.php';
-require_once 'Classes/BookProduct.php';
-require_once 'Classes/FurnitureProduct.php';
+
+require_once 'Classes/autoload.php';
 
 $json_string = file_get_contents('php://input');
 $Reqdata = json_decode($json_string, true);
-
 
 // 1. Fetch Request Data
 $data = [
@@ -41,16 +39,15 @@ $products = [
 ];
 
 $productClass = $products[$data['type']];
-$product = new $productClass();
-$validation_result = $product->validate($data);
+$product = new $productClass((object) $data);
+$validation_result = $product->validate();
 if ($validation_result['success'] === false) {
     // Return Error
     die(json_encode($validation_result));
 }
 
 // 3. Insert Product
-$product->construct($data);
-$product->save();
+$product->insert();
 
 die(json_encode([
     'success' => true,

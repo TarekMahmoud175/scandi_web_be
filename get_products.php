@@ -4,11 +4,9 @@ header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 
-require_once 'Classes/Product.php';
+require_once 'Classes/autoload.php';
 
-$product = new Product;
-
-$products = $product->getAll();
+$products = (new Product)->all();
 
 die(json_encode([
     'products' => $products

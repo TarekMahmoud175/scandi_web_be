@@ -1,74 +1,57 @@
 <?php
 
-require_once 'Product.php';
-
 class DVDProduct extends Product
 {
     protected $type = 'dvd';
 
-    protected $size_mb;
-
-    public function setSize($size_mb)
+    public function __construct($data)
     {
-        $this->size_mb = $size_mb;
-    }
+        parent::__construct();
 
-    public function getSize()
-    {
-        return $this->size_mb;
-    }
-
-    public function construct($data)
-    {
-        if (isset($data->id)) {
-            $this->setId($data->id);
+        if (!empty($data->id)) {
+            $this->id = $data->id;
         }
 
-        $this->setSKU($data->sku);
-        $this->setName($data->name);
-        $this->setPrice($data->price);
-        $this->setSize($data->dvd_size_mb);
+        $this->sku = $data->sku;
+        $this->name = $data->name;
+        $this->price = $data->price;
+        $this->dvd_size_mb = $data->dvd_size_mb;
     }
 
     public function toArray()
     {
         $data = [
-            'type' => $this->type,
-            'sku' => $this->getSKU(),
-            'name' => $this->getName(),
-            'price' => $this->getPrice(),
-            'dvd_size_mb' => $this->getSize(),
+            'type' => (string) $this->type,
+            'sku' => (string) $this->sku,
+            'name' => (string) $this->name,
+            'price' => (string) $this->price,
+            'dvd_size_mb' => (string) $this->dvd_size_mb,
         ];
 
-        if (!empty($id = $this->getId())) {
-            $data['id'] = $id;
+        if (!empty((string) $this->id)) {
+            $data['id'] = (string) $this->id;
         }
 
         return $data;
     }
 
-    public function validate($data)
+    public function validate()
     {
-        $validation_result = $this->validateMain($data);
+        $validation_result = $this->validateMain();
 
         if ($validation_result['success'] === false) {
             return $validation_result;
         }
 
-        if (empty($data['dvd_size_mb'])) {
+        if (empty((string) $this->dvd_size_mb)) {
             return [
                 'success' => false,
-                'message' => 'SKU is Required!',
+                'message' => 'DVD Size is Required!',
             ];
         }
 
         return [
             'success' => true,
         ];
-    }
-
-    public function save()
-    {
-        $this->db->insert('products', $this->toArray());
     }
 }
