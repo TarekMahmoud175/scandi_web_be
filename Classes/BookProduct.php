@@ -9,7 +9,7 @@ class BookProduct extends Product
         parent::__construct();
 
         if (!empty($data->id)) {
-            $this->id= $data->id;
+            $this->id = $data->id;
         }
 
         $this->sku = $data->sku;
@@ -40,14 +40,14 @@ class BookProduct extends Product
         $validation_result = $this->validateMain();
 
         if ($validation_result['success'] === false) {
-            return $validation_result;
+            die(json_encode($validation_result));
         }
 
         if (empty((string) $this->book_weight_kg)) {
-            return [
+            die(json_encode([
                 'success' => false,
                 'message' => 'Weight is Required!',
-            ];
+            ]));
         }
 
         return [

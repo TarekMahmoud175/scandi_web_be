@@ -11,6 +11,17 @@ class Product extends DataModel
         $this->data['type'] = $this->type;
     }
 
+    public function checkTypeValidty($type){
+        if (!in_array($type, ['dvd', 'book', 'furniture'])) {
+            // Return Error
+            die(json_encode([
+                'success' => false,
+                'message' => 'Type is invalid!',
+            ]));
+        }
+    } 
+
+
     public function validateMain()
     {
         if (empty((string) $this->sku)) {

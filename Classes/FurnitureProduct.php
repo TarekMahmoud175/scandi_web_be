@@ -9,7 +9,7 @@ class FurnitureProduct extends Product
         parent::__construct();
 
         if (!empty($data->id)) {
-            $this->id= $data->id;
+            $this->id = $data->id;
         }
 
         $this->sku = $data->sku;
@@ -44,28 +44,28 @@ class FurnitureProduct extends Product
         $validation_result = $this->validateMain();
 
         if ($validation_result['success'] === false) {
-            return $validation_result;
+            die(json_encode($validation_result));
         }
 
         if (empty((string) $this->furniture_width_cm)) {
-            return [
+            die(json_encode([
                 'success' => false,
                 'message' => 'Width is Required!',
-            ];
+            ]));
         }
 
         if (empty((string) $this->furniture_height_cm)) {
-            return [
+            die(json_encode([
                 'success' => false,
                 'message' => 'Height is Required!',
-            ];
+            ]));
         }
 
         if (empty((string) $this->furniture_length_cm)) {
-            return [
+            die(json_encode([
                 'success' => false,
                 'message' => 'Length is Required!',
-            ];
+            ]));
         }
 
         return [

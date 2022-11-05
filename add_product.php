@@ -23,14 +23,7 @@ $data = [
 ];
 
 
-// 2. Validate Request Data
-if (!in_array($data['type'], ['dvd', 'book', 'furniture'])) {
-    // Return Error
-    die(json_encode([
-        'success' => false,
-        'message' => 'Type is invalid!',
-    ]));
-}
+(new Product)->checkTypeValidty($data["type"]);
 
 $products = [
     'dvd' => 'DVDProduct',
@@ -40,11 +33,12 @@ $products = [
 
 $productClass = $products[$data['type']];
 $product = new $productClass((object) $data);
+
 $validation_result = $product->validate();
-if ($validation_result['success'] === false) {
-    // Return Error
-    die(json_encode($validation_result));
-}
+// if ($validation_result['success'] === false) {
+//     // Return Error
+//     die(json_encode($validation_result));
+// }
 
 // 3. Insert Product
 $product->insert();

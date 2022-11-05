@@ -40,14 +40,14 @@ class DVDProduct extends Product
         $validation_result = $this->validateMain();
 
         if ($validation_result['success'] === false) {
-            return $validation_result;
+            die(json_encode($validation_result));
         }
 
         if (empty((string) $this->dvd_size_mb)) {
-            return [
+            die(json_encode([
                 'success' => false,
                 'message' => 'DVD Size is Required!',
-            ];
+            ]));
         }
 
         return [
