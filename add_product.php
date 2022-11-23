@@ -10,16 +10,27 @@ $json_string = file_get_contents('php://input');
 $Reqdata = json_decode($json_string, true);
 
 // 1. Fetch Request Data
+// $data = [
+//     'sku' => $Reqdata['sku'],
+//     'name' => $Reqdata['name'],
+//     'price' => $Reqdata['price'],
+//     'type' => $Reqdata['type'],
+//     'dvd_size_mb' => $Reqdata['dvd_size_mb'],
+//     'book_weight_kg' => $Reqdata['book_weight_kg'],
+//     'furniture_width_cm' => $Reqdata['furniture_width_cm'],
+//     'furniture_height_cm' => $Reqdata['furniture_height_cm'],
+//     'furniture_length_cm' => $Reqdata['furniture_length_cm'],
+// ];
 $data = [
-    'sku' => $Reqdata['sku'],
-    'name' => $Reqdata['name'],
-    'price' => $Reqdata['price'],
-    'type' => $Reqdata['type'],
-    'dvd_size_mb' => $Reqdata['dvd_size_mb'],
-    'book_weight_kg' => $Reqdata['book_weight_kg'],
-    'furniture_width_cm' => $Reqdata['furniture_width_cm'],
-    'furniture_height_cm' => $Reqdata['furniture_height_cm'],
-    'furniture_length_cm' => $Reqdata['furniture_length_cm'],
+    'sku' => 'sku01234',
+    'name' => 'name',
+    'price' => 'price',
+    'type' => 'furniture',
+    'dvd_size_mb' => 'dvd_size_mb',
+    'book_weight_kg' => 'book_weight_kg',
+    'furniture_width_cm' => '5',
+    'furniture_height_cm' => '10',
+    'furniture_length_cm' => '15',
 ];
 
 

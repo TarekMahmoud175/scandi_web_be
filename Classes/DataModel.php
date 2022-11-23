@@ -166,7 +166,7 @@ abstract class DataModel
         $sql .= sprintf(" LIMIT %d,%d", $skip, $limit);
 
         // fetch our records
-        return $this->sql($sql);
+        return $this->sql($sql, null, true);
     }
 
     public function __get($name)
